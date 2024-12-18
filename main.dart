@@ -1,22 +1,15 @@
-String capitalizeName(String? name) {
-  if (name != null) {
-    return name.toUpperCase();
-  }
-  return 'ANON';
+// List<int> reverseListOfNumners(List<int> list) {
+//   var reversed = list.reversed;
+//   return reversed.toList();
+// }
+
+typedef ListOfInts = List<int>;
+
+ListOfInts reverseListOfNumners(ListOfInts list) {
+  var reversed = list.reversed;
+  return reversed.toList();
 }
 
-String capitalizeName(String? name) =>
-    name != null ? name.toUpperCase() : 'ANON';
-
-String capitalizeName(String? name) => name?.toUpperCase() ?? 'ANON';
-
 void main() {
-  capitalizeName('j');
-  capitalizeName(null);
-
-  String? name;
-  name ??= 'j';
-  name = null;
-  name ??= 'another';
-  print(name);
+  print(reverseListOfNumners([1, 2, 3]));
 }
