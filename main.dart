@@ -1,40 +1,22 @@
-num return_sum(num a, num b) {
-  return a + b;
-}
-
-void no_return_sum(num a, num b) {
-  a + b;
-}
-
-// Named Parameters
-String sayHi({
-  required user,
-  int age = 24,
-  String country = 'home',
-  int? year,
-}) {
-  return "Hi $user, you are $age and you come from $country ($year)";
-}
-
-// Optional Positional Parameters
-String sayHello(String potato, [String? from = 'google', int? year]) =>
-    "This is $from $potato! $year";
-
-String say(String potato, int? year, [String? from = 'google']) {
-// String say(String potato, [String? from = 'google', int? year]) {
-  var result = "This is $from $potato!";
-  if (year != null) {
-    result = "This is $from $potato! $year";
+String capitalizeName(String? name) {
+  if (name != null) {
+    return name.toUpperCase();
   }
-  return result;
+  return 'ANON';
 }
+
+String capitalizeName(String? name) =>
+    name != null ? name.toUpperCase() : 'ANON';
+
+String capitalizeName(String? name) => name?.toUpperCase() ?? 'ANON';
 
 void main() {
-  var info = sayHi(country: 'korea', user: 'j');
-  print(info);
+  capitalizeName('j');
+  capitalizeName(null);
 
-  print(sayHello('dart'));
-
-  print(say('dart', null));
-  // print(say('dart'));
+  String? name;
+  name ??= 'j';
+  name = null;
+  name ??= 'another';
+  print(name);
 }
