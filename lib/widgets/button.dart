@@ -22,7 +22,7 @@ class Button extends StatelessWidget {
       child: Padding(
         padding: EdgeInsets.symmetric(
           vertical: 21,
-          horizontal: 54,
+          horizontal: 55,
         ),
         child: Text(
           text,
