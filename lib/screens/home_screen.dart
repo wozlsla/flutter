@@ -29,14 +29,24 @@ class HomeScreen extends StatelessWidget {
         future: webtoons, // await
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            return Text(
-              'Data is here',
-              style: TextStyle(color: Colors.white),
+            return ListView.separated(
+              scrollDirection: Axis.horizontal,
+              itemCount: snapshot.data!.length,
+              itemBuilder: (context, index) {
+                // print(index);
+                var webtoon = snapshot.data![index];
+                return Text(
+                  webtoon.title,
+                  style: TextStyle(color: Colors.white),
+                );
+              },
+              separatorBuilder: (context, index) => SizedBox(
+                width: 20,
+              ),
             );
           }
-          return Text(
-            'Loading...',
-            style: TextStyle(color: Colors.white),
+          return Center(
+            child: CircularProgressIndicator(),
           );
         },
       ),
