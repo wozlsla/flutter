@@ -1,27 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_toon/screens/home_screen.dart';
+import 'package:flutter_toon/services/api_service.dart';
 
 void main() {
-  runApp(App());
+  ApiService().getTodaysToons();
+  runApp(const App());
 }
 
+// This widget is the root of your application.
 class App extends StatelessWidget {
   const App({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(
-        scaffoldBackgroundColor: const Color(0xffE7626C),
-        textTheme: const TextTheme(
-          displayLarge: TextStyle(
-            color: Color(0xFF232B55),
-          ),
-        ),
-        cardColor: const Color(0xFFF4EDDB),
-      ),
-      home: const HomeScreen(),
+    return const MaterialApp(
+      home: HomeScreen(),
     );
   }
 }
