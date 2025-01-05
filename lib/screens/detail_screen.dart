@@ -3,7 +3,7 @@ import 'package:flutter_toon/models/webtoon_detail_model.dart';
 import 'package:flutter_toon/models/webtoon_episode_model.dart';
 import 'package:flutter_toon/services/api_service.dart';
 import 'package:flutter_toon/widgets/episode_widget.dart';
-import 'package:url_launcher/url_launcher_string.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class DetailScreen extends StatefulWidget {
   final String id, title, thumb;
@@ -22,12 +22,46 @@ class DetailScreen extends StatefulWidget {
 class _DetailScreenState extends State<DetailScreen> {
   late Future<WebtoonDetailModel> webtoon;
   late Future<List<WebtoonEpisodeModel>> episodes;
+  late SharedPreferences prefs;
+  bool isLiked = false;
+
+  Future initPrefs() async {
+    prefs = await SharedPreferences.getInstance();
+    final likedToons = prefs.getStringList('likedToons');
+    if (likedToons != null) {
+      if (likedToons.contains(widget.id) == true) {
+        setState(() {
+          isLiked = true;
+        });
+      }
+    } else {
+      await prefs.setStringList('likedToons', []);
+    }
+  }
 
   @override
   void initState() {
     super.initState();
     webtoon = ApiService.getToonById(widget.id);
     episodes = ApiService.getLatestEpisodesById(widget.id);
+    initPrefs();
+  }
+
+  onHeartTap() async {
+    final likedToons = prefs.getStringList('likedToons');
+    if (likedToons != null) {
+      // modify list
+      if (isLiked) {
+        likedToons.remove(widget.id);
+      } else {
+        likedToons.add(widget.id);
+      }
+      // save list
+      await prefs.setStringList('likedToons', likedToons);
+      setState(() {
+        isLiked = !isLiked;
+      });
+    }
   }
 
   @override
@@ -41,6 +75,12 @@ class _DetailScreenState extends State<DetailScreen> {
         shadowColor: Colors.black,
         backgroundColor: Color(0xff000000),
         foregroundColor: Color(0xff0CA37F),
+        actions: [
+          IconButton(
+            onPressed: onHeartTap,
+            icon: Icon(isLiked ? Icons.favorite : Icons.favorite_border),
+          ),
+        ],
         title: Text(
           widget.title,
           style: TextStyle(
