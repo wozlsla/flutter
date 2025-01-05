@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_toon/models/webtoon_detail_model.dart';
 import 'package:flutter_toon/models/webtoon_episode_model.dart';
 import 'package:flutter_toon/services/api_service.dart';
+import 'package:flutter_toon/widgets/episode_widget.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class DetailScreen extends StatefulWidget {
   final String id, title, thumb;
@@ -126,42 +128,9 @@ class _DetailScreenState extends State<DetailScreen> {
                         for (var episode in snapshot.data!.length > 10
                             ? snapshot.data!.sublist(0, 10)
                             : snapshot.data!)
-                          Container(
-                            margin: EdgeInsets.only(
-                              bottom: 10,
-                            ),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(15),
-                              color: Color(0xff27282B),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                vertical: 16,
-                                horizontal: 20,
-                              ),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Flexible(
-                                    fit: FlexFit.loose,
-                                    child: Text(
-                                      episode.title,
-                                      style: TextStyle(
-                                        color: Colors.grey,
-                                        fontSize: 14,
-                                      ),
-                                      softWrap: false,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                  ),
-                                  Icon(
-                                    Icons.chevron_right_rounded,
-                                    color: Colors.grey.shade500,
-                                  ),
-                                ],
-                              ),
-                            ),
+                          Episode(
+                            episode: episode,
+                            webtoonId: widget.id,
                           )
                       ],
                     );
